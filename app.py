@@ -34,24 +34,16 @@ st.markdown("""
     /* Terapkan Animasi ke Elemen Utama */
     .kpi-card {
         animation: fadeInUp 0.6s ease-out forwards;
-        transition: transform 0.3s ease, box-shadow 0.3s ease; /* Transisi untuk hover */
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
     .kpi-card:hover {
-        transform: translateY(-5px) scale(1.02); /* Efek naik dan membesar saat di-hover */
+        transform: translateY(-5px) scale(1.02);
         box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1) !important;
     }
 
-    .card-blue {
-        animation: fadeInUp 0.8s ease-out forwards;
-    }
-
-    .section-header {
-        animation: slideInLeft 0.8s ease-out forwards;
-    }
-
-    div[data-testid="stNotification"] {
-        animation: fadeInUp 0.5s ease-out forwards;
-    }
+    .card-blue { animation: fadeInUp 0.8s ease-out forwards; }
+    .section-header { animation: slideInLeft 0.8s ease-out forwards; }
+    div[data-testid="stNotification"] { animation: fadeInUp 0.5s ease-out forwards; }
 
     /* =========================================
        2. TEMA DASAR
@@ -69,7 +61,7 @@ st.markdown("""
     }
     
     /* =========================================
-       4. PERBAIKAN MUTLAK KOTAK INPUT (LOGIN & FILTER)
+       4. PERBAIKAN MUTLAK KOTAK INPUT (FILTER)
        ========================================= */
     div[data-baseweb="input"] {
         background-color: #FFFFFF !important; 
@@ -297,45 +289,11 @@ def bersihkan_data(df):
 
 
 # ==========================================
-# SISTEM LOGIN (TAMPILAN SEDERHANA)
-# ==========================================
-if 'logged_in' not in st.session_state:
-    st.session_state['logged_in'] = False
-
-if not st.session_state['logged_in']:
-    col1, col2, col3 = st.columns([1, 1, 1])
-    with col2:
-        st.write(""); st.write(""); st.write("")
-        st.markdown("""
-        <div style="text-align: center; margin-bottom: 30px;">
-            <h2 style="color: #10B981 !important; font-size: 2.5rem; font-weight: bold;">🔐 Login Sistem</h2>
-            <p style="color: #6B7280 !important;">Silakan masuk untuk mengakses Dashboard</p>
-        </div>
-        """, unsafe_allow_html=True)
-        
-        with st.form("login_form"):
-            username = st.text_input("Username", placeholder="Masukkan username...")
-            password = st.text_input("Password", type="password", placeholder="Masukkan password...")
-            submit_button = st.form_submit_button("Login", use_container_width=True)
-            
-            if submit_button:
-                if username == "admin" and password == "admin123":
-                    st.session_state['logged_in'] = True
-                    st.rerun()
-                else:
-                    st.error("❌ Username atau Password salah!")
-    st.stop()
-
-# ==========================================
-# SIDEBAR: UPLOAD (MUNCUL SETELAH LOGIN)
+# SIDEBAR: UPLOAD
 # ==========================================
 st.sidebar.header("📁 Unggah Data")
 st.sidebar.markdown("Silakan unggah file Excel (sheet: Data_Raw).")
 uploaded_file = st.sidebar.file_uploader("Pilih file Excel", type=["xlsx"])
-st.sidebar.markdown("---")
-if st.sidebar.button("🚪 Logout", use_container_width=True):
-    st.session_state['logged_in'] = False
-    st.rerun()
 
 if uploaded_file is None:
     col_logo, col_teks = st.columns([1, 4])
